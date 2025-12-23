@@ -39,7 +39,8 @@
                 <div class="paper-header">
                     <h2>UNIFIED SECURITY AND FACILITIES MANAGEMENT SERVICES PVT. LTD.</h2>
                     <h5>Joining / General Information Form</h5>
-                    <p class="asterisk">*All details should be as per Aadhaar Card (Use Blue Pen & Capital Letters only)</p>
+                    <!-- REMOVED "USE BLUE PEN ONLY" AS REQUESTED -->
+                    <p class="asterisk">*All details should be as per Aadhaar Card</p>
                 </div>
 
                 <div class="paper-body">
@@ -53,7 +54,7 @@
                                     <label class="form-label-bold">Name of Employee: *</label>
                                     <input type="text" class="paper-input" name="fullName" required>
                                     
-                                    <div class="row mt-3">
+                                    <div class="row mt-4">
                                         <div class="col-md-6">
                                             <label class="form-label-bold">UAN No:</label>
                                             <input type="text" class="paper-input" name="uan">
@@ -92,7 +93,7 @@
                                             <input type="date" class="paper-input" name="joiningDate" required>
                                         </div>
                                     </div>
-                                    <div class="mt-3">
+                                    <div class="mt-4">
                                         <label class="form-label-bold">Father / Husband Name: *</label>
                                         <input type="text" class="paper-input" name="fatherName" required>
                                     </div>
@@ -168,90 +169,121 @@
                             <textarea class="paper-textarea" name="permanentAddress" rows="2" required></textarea>
                         </div>
 
-                        <!-- SECTION 5: UNIFORM ISSUE (CHECKBOX) -->
+                        <!-- SECTION 5: UNIFORM ISSUE (YES/NO) -->
                         <div class="paper-section">
-                            <label class="form-label-bold">Uniform Issue (Mark if issued):</label>
+                            <label class="form-label-bold">Uniform Issue Status</label>
                             <div class="table-responsive">
-                                <table class="paper-table">
+                                <table class="paper-table modern-table">
                                     <thead>
                                         <tr>
-                                            <th>Item</th>
-                                            <th>Issued? (Tick)</th>
-                                            <th>Date of Issue</th>
-                                            <th>Signature</th>
+                                            <th>Item Name</th>
+                                            <th style="width: 20%;">Issued?</th>
+                                            <th>Issue Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <!-- Rows generated dynamically or static -->
                                         <tr>
                                             <td>Pant</td>
-                                            <td class="text-center"><input type="checkbox" class="uniform-check"></td>
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
+                                                </div>
+                                            </td>
                                             <td><input type="date" class="table-input date-field" disabled></td>
-                                            <td><input type="text" class="table-input sig-field" disabled placeholder="Sign"></td>
                                         </tr>
                                         <tr>
                                             <td>Shirt</td>
-                                            <td class="text-center"><input type="checkbox" class="uniform-check"></td>
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
+                                                </div>
+                                            </td>
                                             <td><input type="date" class="table-input date-field" disabled></td>
-                                            <td><input type="text" class="table-input sig-field" disabled placeholder="Sign"></td>
                                         </tr>
                                         <tr>
                                             <td>Shoes</td>
-                                            <td class="text-center"><input type="checkbox" class="uniform-check"></td>
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
+                                                </div>
+                                            </td>
                                             <td><input type="date" class="table-input date-field" disabled></td>
-                                            <td><input type="text" class="table-input sig-field" disabled placeholder="Sign"></td>
                                         </tr>
                                         <tr>
                                             <td>Cap</td>
-                                            <td class="text-center"><input type="checkbox" class="uniform-check"></td>
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
+                                                </div>
+                                            </td>
                                             <td><input type="date" class="table-input date-field" disabled></td>
-                                            <td><input type="text" class="table-input sig-field" disabled placeholder="Sign"></td>
                                         </tr>
                                         <tr>
                                             <td>Belt</td>
-                                            <td class="text-center"><input type="checkbox" class="uniform-check"></td>
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
+                                                </div>
+                                            </td>
                                             <td><input type="date" class="table-input date-field" disabled></td>
-                                            <td><input type="text" class="table-input sig-field" disabled placeholder="Sign"></td>
                                         </tr>
                                         <tr>
                                             <td>Line Yard</td>
-                                            <td class="text-center"><input type="checkbox" class="uniform-check"></td>
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
+                                                </div>
+                                            </td>
                                             <td><input type="date" class="table-input date-field" disabled></td>
-                                            <td><input type="text" class="table-input sig-field" disabled placeholder="Sign"></td>
                                         </tr>
                                         <tr>
                                             <td>Whistle</td>
-                                            <td class="text-center"><input type="checkbox" class="uniform-check"></td>
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
+                                                </div>
+                                            </td>
                                             <td><input type="date" class="table-input date-field" disabled></td>
-                                            <td><input type="text" class="table-input sig-field" disabled placeholder="Sign"></td>
                                         </tr>
                                         <tr>
                                             <td>Tie</td>
-                                            <td class="text-center"><input type="checkbox" class="uniform-check"></td>
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
+                                                </div>
+                                            </td>
                                             <td><input type="date" class="table-input date-field" disabled></td>
-                                            <td><input type="text" class="table-input sig-field" disabled placeholder="Sign"></td>
                                         </tr>
                                         <tr>
                                             <td>I-Card</td>
-                                            <td class="text-center"><input type="checkbox" class="uniform-check"></td>
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
+                                                </div>
+                                            </td>
                                             <td><input type="date" class="table-input date-field" disabled></td>
-                                            <td><input type="text" class="table-input sig-field" disabled placeholder="Sign"></td>
                                         </tr>
                                         <tr>
                                             <td>Flap</td>
-                                            <td class="text-center"><input type="checkbox" class="uniform-check"></td>
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
+                                                </div>
+                                            </td>
                                             <td><input type="date" class="table-input date-field" disabled></td>
-                                            <td><input type="text" class="table-input sig-field" disabled placeholder="Sign"></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
-                        <!-- SECTION 6: ESIC NUMBER & FAMILY (5 ROWS) -->
+                        <!-- SECTION 6: ESIC & FAMILY -->
                         <div class="paper-section">
                             <label class="form-label-bold">ESIC Number of Employee:</label>
                             <input type="text" class="paper-input mb-3" name="esic">
                             
+                            <label class="form-label-bold">Family Details:</label>
                             <div class="table-responsive">
                                 <table class="paper-table">
                                     <thead>
@@ -273,7 +305,7 @@
                             </div>
                         </div>
 
-                        <!-- SECTION 7: UNDERTAKING & SIGNATURES -->
+                        <!-- SECTION 7: UNDERTAKING -->
                         <div class="undertaking-box">
                             <h5>Undertaking</h5>
                             <p>मैं, नीचे हस्ताक्षरित, प्रमाणित करता हूँ कि मेरे द्वारा दिए गए ऊपर के विवरण मेरी जानकारी के अनुसार सही और सत्य हैं। अगर मेरे पास UAN और बैंक अकाउंट नहीं है तो सैलरी नहीं दी जाएगी।</p>
@@ -285,10 +317,9 @@
                                 </div>
                                 <div class="sig-box sig-locked">
                                     <p>Authorised Signatory</p>
-                                    <!-- LOCKED SIGNATURE -->
                                     <div class="locked-sig">
                                         <span>For Unified Security</span>
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Signature_sample.svg/1200px-Signature_sample.svg.png" height="30" alt="Sig">
+                                        <div style="font-family:'Brush Script MT', cursive; font-size: 1.5rem; color: #003366;">Authorized Sign</div>
                                     </div>
                                 </div>
                             </div>
@@ -360,23 +391,18 @@
         // Initialize AOS
         AOS.init({ once: true, duration: 800 });
 
-        // Checkbox Logic for Uniform
-        document.querySelectorAll('.uniform-check').forEach(chk => {
-            chk.addEventListener('change', function() {
+        // Toggle Logic for Uniform (Clean Modern Way)
+        document.querySelectorAll('.uniform-switch').forEach(sw => {
+            sw.addEventListener('change', function() {
                 const row = this.closest('tr');
                 const dateInput = row.querySelector('.date-field');
-                const sigInput = row.querySelector('.sig-field');
                 
                 if(this.checked) {
                     dateInput.disabled = false;
-                    sigInput.disabled = false;
-                    row.classList.add('issued-row');
+                    dateInput.focus(); // Auto focus for convenience
                 } else {
                     dateInput.disabled = true;
-                    sigInput.disabled = true;
                     dateInput.value = '';
-                    sigInput.value = '';
-                    row.classList.remove('issued-row');
                 }
             });
         });
@@ -405,7 +431,7 @@
             const msg = document.getElementById('statusMsg');
             
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Uploading Docs & Data...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Uploading...';
             msg.className = 'alert hidden';
 
             const formData = new FormData(this);
@@ -414,24 +440,23 @@
 
             // 1. Collect Uniform Data
             const uniformRows = [];
-            const tableRows = document.querySelectorAll('.paper-table:first-of-type tbody tr');
+            const tableRows = document.querySelectorAll('.modern-table tbody tr');
             tableRows.forEach(row => {
-                const isIssued = row.querySelector('.uniform-check').checked;
+                const isIssued = row.querySelector('.uniform-switch').checked;
                 if(isIssued) {
                     const item = row.cells[0].innerText.trim();
                     const date = row.querySelector('.date-field').value;
-                    const sig = row.querySelector('.sig-field').value;
-                    uniformRows.push({ item, date, sig });
+                    uniformRows.push({ item, date });
                 }
             });
             data.uniformDetails = uniformRows;
 
-            // 2. Collect Family Data (5 Rows)
+            // 2. Collect Family Data
             const familyRows = [];
             const familyTableRows = document.querySelectorAll('.paper-table:last-of-type tbody tr');
             familyTableRows.forEach(row => {
                 const inputs = row.querySelectorAll('input');
-                if(inputs[0].value) { // If name is filled
+                if(inputs[0].value) {
                     familyRows.push({
                         name: inputs[0].value,
                         dob: inputs[1].value,
@@ -442,13 +467,9 @@
             });
             data.familyDetails = familyRows;
 
-            // 3. Collect All Files (Base64)
+            // 3. Collect All Files
             const filePromises = [];
-            
-            // Photo
             if(photoInput.files[0]) filePromises.push(toBase64(photoInput.files[0]).then(res => ({name: 'photo', data: res})));
-            
-            // Docs 1-6
             for(let i=1; i<=6; i++) {
                 const input = document.getElementById(`doc${i}`);
                 if(input.files[0]) {
@@ -457,11 +478,7 @@
             }
 
             Promise.all(filePromises).then(files => {
-                // Attach files to data object
-                files.forEach(f => {
-                    data[f.name] = f.data;
-                });
-
+                files.forEach(f => { data[f.name] = f.data; });
                 data.action = 'submitForm';
 
                 fetch(SCRIPT_URL, {
@@ -471,15 +488,13 @@
                     body: JSON.stringify(data)
                 })
                 .then(() => {
-                    btn.innerHTML = '<i class="fas fa-check me-2"></i> Submitted Successfully';
+                    btn.innerHTML = '<i class="fas fa-check me-2"></i> Submitted';
                     btn.classList.add('btn-success');
-                    msg.innerHTML = '<strong>Success!</strong><br>Application submitted. Documents saved to Drive.';
+                    msg.innerHTML = '<strong>Success!</strong><br>Application submitted.';
                     msg.classList.add('alert-success');
                     document.getElementById('joiningForm').reset();
                     photoPlaceholder.innerHTML = '<i class="fas fa-camera fa-2x"></i><p>Click to Upload</p>';
-                    
-                    // Disable uniform inputs on reset
-                    document.querySelectorAll('.date-field, .sig-field').forEach(i => i.disabled = true);
+                    document.querySelectorAll('.date-field').forEach(i => i.disabled = true);
                 })
                 .catch(err => {
                     btn.disabled = false;

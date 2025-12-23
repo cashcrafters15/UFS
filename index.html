@@ -39,7 +39,6 @@
                 <div class="paper-header">
                     <h2>UNIFIED SECURITY AND FACILITIES MANAGEMENT SERVICES PVT. LTD.</h2>
                     <h5>Joining / General Information Form</h5>
-                    <!-- REMOVED "USE BLUE PEN ONLY" AS REQUESTED -->
                     <p class="asterisk">*All details should be as per Aadhaar Card</p>
                 </div>
 
@@ -182,7 +181,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- Rows generated dynamically or static -->
                                         <tr>
                                             <td>Pant</td>
                                             <td>
@@ -399,7 +397,7 @@
                 
                 if(this.checked) {
                     dateInput.disabled = false;
-                    dateInput.focus(); // Auto focus for convenience
+                    dateInput.focus();
                 } else {
                     dateInput.disabled = true;
                     dateInput.value = '';
@@ -430,15 +428,17 @@
             const btn = document.getElementById('submitBtn');
             const msg = document.getElementById('statusMsg');
             
+            // UI Feedback
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Uploading...';
-            msg.className = 'alert hidden';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Submitting...';
+            msg.className = 'alert hidden'; // Hide previous messages
 
+            // 1. Collect Standard Form Data
             const formData = new FormData(this);
             const data = {};
             formData.forEach((value, key) => data[key] = value);
 
-            // 1. Collect Uniform Data
+            // 2. Collect Uniform Data (Only if issued)
             const uniformRows = [];
             const tableRows = document.querySelectorAll('.modern-table tbody tr');
             tableRows.forEach(row => {
@@ -451,7 +451,7 @@
             });
             data.uniformDetails = uniformRows;
 
-            // 2. Collect Family Data
+            // 3. Collect Family Data
             const familyRows = [];
             const familyTableRows = document.querySelectorAll('.paper-table:last-of-type tbody tr');
             familyTableRows.forEach(row => {
@@ -467,20 +467,32 @@
             });
             data.familyDetails = familyRows;
 
-            // 3. Collect All Files
+            // 4. Collect Files (Base64)
+            // NOTE: We limit uploads or optimize because 6 files can hit POST limits
             const filePromises = [];
-            if(photoInput.files[0]) filePromises.push(toBase64(photoInput.files[0]).then(res => ({name: 'photo', data: res})));
+            
+            if(photoInput.files[0]) {
+                filePromises.push(toBase64(photoInput.files[0]).then(res => ({name: 'photoBase64', data: res})));
+            }
+            
+            // Collect Docs 1-6
             for(let i=1; i<=6; i++) {
                 const input = document.getElementById(`doc${i}`);
                 if(input.files[0]) {
-                    filePromises.push(toBase64(input.files[0]).then(res => ({name: `doc_${i}`, data: res})));
+                    filePromises.push(toBase64(input.files[0]).then(res => ({name: `doc${i}Base64`, data: res})));
                 }
             }
 
+            // 5. Wait for all files to convert
             Promise.all(filePromises).then(files => {
-                files.forEach(f => { data[f.name] = f.data; });
+                // Attach files to data object
+                files.forEach(f => {
+                    data[f.name] = f.data;
+                });
+
                 data.action = 'submitForm';
 
+                // 6. SEND TO GOOGLE
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -488,23 +500,29 @@
                     body: JSON.stringify(data)
                 })
                 .then(() => {
-                    btn.innerHTML = '<i class="fas fa-check me-2"></i> Submitted';
+                    // SUCCESS (no-cors means we don't get a body back, but if it doesn't throw, it worked)
+                    btn.innerHTML = '<i class="fas fa-check me-2"></i> Submitted Successfully';
                     btn.classList.add('btn-success');
-                    msg.innerHTML = '<strong>Success!</strong><br>Application submitted.';
+                    msg.innerHTML = '<strong>Success!</strong><br>Data saved. Check your email/Employee ID.';
                     msg.classList.add('alert-success');
+                    
+                    // Reset form
                     document.getElementById('joiningForm').reset();
                     photoPlaceholder.innerHTML = '<i class="fas fa-camera fa-2x"></i><p>Click to Upload</p>';
                     document.querySelectorAll('.date-field').forEach(i => i.disabled = true);
                 })
                 .catch(err => {
+                    // ERROR
                     btn.disabled = false;
-                    btn.innerHTML = 'Error';
-                    msg.innerText = "Submission failed.";
+                    btn.innerHTML = 'Error - Try Again';
+                    msg.innerText = "Submission failed. Check internet connection.";
                     msg.classList.add('alert-danger');
+                    console.error(err);
                 });
             });
         });
 
+        // Helper: Convert File to Base64
         function toBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();

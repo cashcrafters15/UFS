@@ -1,12 +1,20 @@
 body {
-  background: #f2f4f7;
+  background-color: #f7f7f7;
   font-family: Arial, sans-serif;
 }
 
 .container {
   max-width: 600px;
-  background: white;
+  background: #fff;
   padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+}
+
+h3 {
+  color: #333;
+}
+
+#pdfLink a {
+  display: inline-block;
 }

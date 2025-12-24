@@ -44,6 +44,8 @@
 
                 <div class="paper-body">
                     <form id="joiningForm">
+                        
+                        <!-- ALERT BOX FOR ERRORS / SUCCESS -->
                         <div id="statusMsg" class="alert hidden"></div>
 
                         <!-- SECTION 1: TOP ROW (Name & Photo) -->
@@ -389,7 +391,7 @@
         // Initialize AOS
         AOS.init({ once: true, duration: 800 });
 
-        // Toggle Logic for Uniform (Clean Modern Way)
+        // Toggle Logic for Uniform
         document.querySelectorAll('.uniform-switch').forEach(sw => {
             sw.addEventListener('change', function() {
                 const row = this.closest('tr');
@@ -420,7 +422,7 @@
             }
         });
 
-        // Form Submission
+        // Form Submission Logic
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRACCrDRpgJVLU0dMlLnba_6tiYJB5sEk8JI_QSfNLOuTkGQU0myO6O7NidxaK1CSE/exec';
 
         document.getElementById('joiningForm').addEventListener('submit', function(e) {
@@ -431,14 +433,16 @@
             // UI Feedback
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Submitting...';
-            msg.className = 'alert hidden'; // Hide previous messages
+            
+            // 1. Clear previous messages & Style as Error initially
+            msg.className = 'alert alert-danger'; 
+            msg.innerText = "Checking information...";
 
-            // 1. Collect Standard Form Data
             const formData = new FormData(this);
             const data = {};
             formData.forEach((value, key) => data[key] = value);
 
-            // 2. Collect Uniform Data (Only if issued)
+            // 2. Collect Uniform Data
             const uniformRows = [];
             const tableRows = document.querySelectorAll('.modern-table tbody tr');
             tableRows.forEach(row => {
@@ -468,7 +472,6 @@
             data.familyDetails = familyRows;
 
             // 4. Collect Files (Base64)
-            // NOTE: We limit uploads or optimize because 6 files can hit POST limits
             const filePromises = [];
             
             if(photoInput.files[0]) {
@@ -483,16 +486,14 @@
                 }
             }
 
-            // 5. Wait for all files to convert
+            // 5. Wait for files & Send
             Promise.all(filePromises).then(files => {
-                // Attach files to data object
                 files.forEach(f => {
                     data[f.name] = f.data;
                 });
 
                 data.action = 'submitForm';
 
-                // 6. SEND TO GOOGLE
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -500,29 +501,34 @@
                     body: JSON.stringify(data)
                 })
                 .then(() => {
-                    // SUCCESS (no-cors means we don't get a body back, but if it doesn't throw, it worked)
-                    btn.innerHTML = '<i class="fas fa-check me-2"></i> Submitted Successfully';
+                    // SUCCESS
+                    btn.innerHTML = '<i class="fas fa-check me-2"></i> Submitted';
                     btn.classList.add('btn-success');
-                    msg.innerHTML = '<strong>Success!</strong><br>Data saved. Check your email/Employee ID.';
-                    msg.classList.add('alert-success');
                     
-                    // Reset form
+                    // POPUP SUCCESS MESSAGE AS REQUESTED
+                    msg.className = 'alert alert-success';
+                    msg.innerHTML = `
+                        <strong>Form Submitted!</strong><br>
+                        Your data has been sent to Unified Security & Facility Management Services Pvt. Ltd.
+                    `;
+                    
                     document.getElementById('joiningForm').reset();
                     photoPlaceholder.innerHTML = '<i class="fas fa-camera fa-2x"></i><p>Click to Upload</p>';
                     document.querySelectorAll('.date-field').forEach(i => i.disabled = true);
                 })
                 .catch(err => {
                     // ERROR
+                    console.error(err);
                     btn.disabled = false;
                     btn.innerHTML = 'Error - Try Again';
-                    msg.innerText = "Submission failed. Check internet connection.";
-                    msg.classList.add('alert-danger');
-                    console.error(err);
+                    
+                    // SHOW ERROR AT TOP
+                    msg.className = 'alert alert-danger';
+                    msg.innerText = "Error: Please ensure all required fields and documents are uploaded correctly.";
                 });
             });
         });
 
-        // Helper: Convert File to Base64
         function toBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();

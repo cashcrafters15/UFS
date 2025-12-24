@@ -1,556 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joining Form | Unified Security</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>UFD Employee Joining Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <!-- Particles Background -->
-    <div class="hero-particles" id="heroParticles"></div>
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Employee Joining Form</h2>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="https://unifiedfacility.in/wp-content/uploads/2021/07/cropped-logo-unified-1.png" alt="Unified" height="40">
-                <span class="brand-text">Joining Form</span>
-            </a>
-        </div>
-    </nav>
+  <div id="msg" class="alert d-none"></div>
 
-    <!-- Main Content -->
-    <div class="main-wrapper">
-        <div class="container">
-            
-            <div class="paper-card" data-aos="fade-up" data-aos-duration="1000">
-                
-                <!-- Header -->
-                <div class="paper-header">
-                    <h2>UNIFIED SECURITY AND FACILITIES MANAGEMENT SERVICES PVT. LTD.</h2>
-                    <h5>Joining / General Information Form</h5>
-                    <p class="asterisk">*All details should be as per Aadhaar Card</p>
-                </div>
+  <form id="joiningForm">
+    <input type="text" name="fullName" class="form-control mb-2" placeholder="Full Name" required>
+    <input type="text" name="mobile" class="form-control mb-2" placeholder="Mobile (10 digit)" required>
+    <input type="text" name="workLocation" class="form-control mb-2" placeholder="Work Location" required>
+    <input type="text" name="designation" class="form-control mb-2" placeholder="Designation" required>
 
-                <div class="paper-body">
-                    <form id="joiningForm">
-                        
-                        <!-- ALERT BOX FOR ERRORS / SUCCESS -->
-                        <div id="statusMsg" class="alert hidden"></div>
+    <label>Photo</label>
+    <input type="file" id="photo" accept="image/*" required class="form-control mb-2">
 
-                        <!-- SECTION 1: TOP ROW (Name & Photo) -->
-                        <div class="paper-section">
-                            <div class="row g-3 align-items-start">
-                                <div class="col-md-8">
-                                    <label class="form-label-bold">Name of Employee: *</label>
-                                    <input type="text" class="paper-input" name="fullName" required>
-                                    
-                                    <div class="row mt-4">
-                                        <div class="col-md-6">
-                                            <label class="form-label-bold">UAN No:</label>
-                                            <input type="text" class="paper-input" name="uan">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label-bold">Work Location: *</label>
-                                            <input type="text" class="paper-input" name="workLocation" required>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label-bold">Designation: *</label>
-                                            <input type="text" class="paper-input" name="designation" required>
-                                        </div>
-                                        <div class="col-md-6 d-flex flex-column">
-                                            <label class="form-label-bold">Gender:</label>
-                                            <div class="d-flex gap-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="gender" value="Male" required>
-                                                    <label class="form-check-label">Male</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="gender" value="Female">
-                                                    <label class="form-check-label">Female</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label-bold">Date of Birth: *</label>
-                                            <input type="date" class="paper-input" name="dob" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label-bold">Joining Date: *</label>
-                                            <input type="date" class="paper-input" name="joiningDate" required>
-                                        </div>
-                                    </div>
-                                    <div class="mt-4">
-                                        <label class="form-label-bold">Father / Husband Name: *</label>
-                                        <input type="text" class="paper-input" name="fatherName" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 text-center">
-                                    <label class="form-label-bold">Photo</label>
-                                    <div class="photo-upload-box" id="photoPreviewBox">
-                                        <input type="file" id="photoInput" accept="image/*" required hidden>
-                                        <div class="photo-placeholder" onclick="document.getElementById('photoInput').click()">
-                                            <i class="fas fa-camera fa-2x"></i>
-                                            <p>Click to Upload</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <label>Aadhaar Front</label>
+    <input type="file" id="doc1" accept="image/*" required class="form-control mb-2">
 
-                        <!-- SECTION 2: NOMINEE & CONTACT -->
-                        <div class="paper-section">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label-bold">Nominee Name:</label>
-                                    <input type="text" class="paper-input" name="nomineeName">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label-bold">Relation:</label>
-                                    <input type="text" class="paper-input" name="nomineeRelation">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label-bold">Marital Status:</label>
-                                    <select class="paper-input" name="maritalStatus">
-                                        <option value="Single">Single</option>
-                                        <option value="Married">Married</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <label class="form-label-bold">Mobile No: *</label>
-                                    <input type="tel" class="paper-input" name="mobile" pattern="[0-9]{10}" required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label-bold">Aadhaar No: *</label>
-                                    <input type="text" class="paper-input" name="aadhaar" required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label-bold">PAN No: *</label>
-                                    <input type="text" class="paper-input" name="pan" required>
-                                </div>
-                            </div>
-                        </div>
+    <label>Aadhaar Back</label>
+    <input type="file" id="doc2" accept="image/*" required class="form-control mb-2">
 
-                        <!-- SECTION 3: BANK -->
-                        <div class="paper-section">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label-bold">Bank Account No: *</label>
-                                    <input type="text" class="paper-input" name="bankAccount" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label-bold">IFSC: *</label>
-                                    <input type="text" class="paper-input" name="ifsc" required>
-                                </div>
-                            </div>
-                        </div>
+    <label>PAN</label>
+    <input type="file" id="doc3" accept="image/*" required class="form-control mb-2">
 
-                        <!-- SECTION 4: ADDRESS -->
-                        <div class="paper-section">
-                            <label class="form-label-bold">Present Address: *</label>
-                            <textarea class="paper-textarea" name="presentAddress" rows="2" required></textarea>
-                            
-                            <label class="form-label-bold mt-3">Permanent Address: *</label>
-                            <textarea class="paper-textarea" name="permanentAddress" rows="2" required></textarea>
-                        </div>
+    <label>Bank Proof</label>
+    <input type="file" id="doc4" accept="image/*,.pdf" required class="form-control mb-3">
 
-                        <!-- SECTION 5: UNIFORM ISSUE (YES/NO) -->
-                        <div class="paper-section">
-                            <label class="form-label-bold">Uniform Issue Status</label>
-                            <div class="table-responsive">
-                                <table class="paper-table modern-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Item Name</th>
-                                            <th style="width: 20%;">Issued?</th>
-                                            <th>Issue Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Pant</td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
-                                                </div>
-                                            </td>
-                                            <td><input type="date" class="table-input date-field" disabled></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Shirt</td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
-                                                </div>
-                                            </td>
-                                            <td><input type="date" class="table-input date-field" disabled></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Shoes</td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
-                                                </div>
-                                            </td>
-                                            <td><input type="date" class="table-input date-field" disabled></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cap</td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
-                                                </div>
-                                            </td>
-                                            <td><input type="date" class="table-input date-field" disabled></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Belt</td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
-                                                </div>
-                                            </td>
-                                            <td><input type="date" class="table-input date-field" disabled></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Line Yard</td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
-                                                </div>
-                                            </td>
-                                            <td><input type="date" class="table-input date-field" disabled></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Whistle</td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
-                                                </div>
-                                            </td>
-                                            <td><input type="date" class="table-input date-field" disabled></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tie</td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
-                                                </div>
-                                            </td>
-                                            <td><input type="date" class="table-input date-field" disabled></td>
-                                        </tr>
-                                        <tr>
-                                            <td>I-Card</td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
-                                                </div>
-                                            </td>
-                                            <td><input type="date" class="table-input date-field" disabled></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Flap</td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input uniform-switch" type="checkbox" role="switch">
-                                                </div>
-                                            </td>
-                                            <td><input type="date" class="table-input date-field" disabled></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+    <button class="btn btn-primary w-100" id="submitBtn">Submit</button>
+  </form>
+</div>
 
-                        <!-- SECTION 6: ESIC & FAMILY -->
-                        <div class="paper-section">
-                            <label class="form-label-bold">ESIC Number of Employee:</label>
-                            <input type="text" class="paper-input mb-3" name="esic">
-                            
-                            <label class="form-label-bold">Family Details:</label>
-                            <div class="table-responsive">
-                                <table class="paper-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name of Family Member</th>
-                                            <th>Date of Birth</th>
-                                            <th>Relation</th>
-                                            <th>Aadhaar Number</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr><td><input type="text" class="table-input"></td><td><input type="date" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td></tr>
-                                        <tr><td><input type="text" class="table-input"></td><td><input type="date" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td></tr>
-                                        <tr><td><input type="text" class="table-input"></td><td><input type="date" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td></tr>
-                                        <tr><td><input type="text" class="table-input"></td><td><input type="date" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td></tr>
-                                        <tr><td><input type="text" class="table-input"></td><td><input type="date" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+<script>
+const SCRIPT_URL = "PASTE_YOUR_NEW_WEB_APP_URL";
 
-                        <!-- SECTION 7: UNDERTAKING -->
-                        <div class="undertaking-box">
-                            <h5>Undertaking</h5>
-                            <p>मैं, नीचे हस्ताक्षरित, प्रमाणित करता हूँ कि मेरे द्वारा दिए गए ऊपर के विवरण मेरी जानकारी के अनुसार सही और सत्य हैं। अगर मेरे पास UAN और बैंक अकाउंट नहीं है तो सैलरी नहीं दी जाएगी।</p>
-                            
-                            <div class="signatures">
-                                <div class="sig-box">
-                                    <p>Signature/Thumb of Employee</p>
-                                    <input type="text" class="underline-input" placeholder="Sign Here">
-                                </div>
-                                <div class="sig-box sig-locked">
-                                    <p>Authorised Signatory</p>
-                                    <div class="locked-sig">
-                                        <span>For Unified Security</span>
-                                        <div style="font-family:'Brush Script MT', cursive; font-size: 1.5rem; color: #003366;">Authorized Sign</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+document.getElementById("joiningForm").addEventListener("submit", async e => {
+  e.preventDefault();
 
-                        <!-- SECTION 8: DOCUMENT UPLOADS -->
-                        <div class="paper-section mt-4 upload-section">
-                            <label class="form-label-bold">Upload Required Documents *</label>
-                            
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="small text-muted">1. Passport Size Photo</label>
-                                    <input type="file" class="paper-input doc-upload" id="doc1" accept="image/*" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-muted">2. Aadhaar Card Front</label>
-                                    <input type="file" class="paper-input doc-upload" id="doc2" accept="image/*" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-muted">3. Aadhaar Card Back</label>
-                                    <input type="file" class="paper-input doc-upload" id="doc3" accept="image/*" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-muted">4. PAN Card Image</label>
-                                    <input type="file" class="paper-input doc-upload" id="doc4" accept="image/*" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-muted">5. Bank Account Passbook/Image</label>
-                                    <input type="file" class="paper-input doc-upload" id="doc5" accept="image/*,.pdf" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-muted">6. ESIC Card (If available)</label>
-                                    <input type="file" class="paper-input doc-upload" id="doc6" accept="image/*,.pdf">
-                                </div>
-                            </div>
-                        </div>
+  const msg = document.getElementById("msg");
+  const btn = document.getElementById("submitBtn");
 
-                        <!-- FINAL WARNING DECLARATION -->
-                        <div class="warning-box">
-                            <h4 class="text-danger"><i class="fas fa-exclamation-triangle"></i> LEGAL WARNING</h4>
-                            <p><strong>Declaration:</strong> If any information or documents provided here are found to be fraudulent, fake, or misleading, strict disciplinary action will be taken and financial penalty will be imposed as per company policy and law.</p>
-                        </div>
+  msg.className = "alert alert-info";
+  msg.innerText = "Submitting...";
+  msg.classList.remove("d-none");
+  btn.disabled = true;
 
-                        <!-- SUBMIT -->
-                        <div class="text-center mt-4">
-                            <button type="submit" id="submitBtn" class="btn btn-submit">
-                                <i class="fas fa-check-double me-2"></i> Submit Form
-                            </button>
-                        </div>
+  try {
+    const data = {
+      action: "submitForm",
+      fullName: joiningForm.fullName.value,
+      mobile: joiningForm.mobile.value,
+      workLocation: joiningForm.workLocation.value,
+      designation: joiningForm.designation.value
+    };
 
-                    </form>
-                </div>
+    data.photoBase64 = await toBase64(photo.files[0]);
+    data.doc1Base64 = await toBase64(doc1.files[0]);
+    data.doc2Base64 = await toBase64(doc2.files[0]);
+    data.doc3Base64 = await toBase64(doc3.files[0]);
+    data.doc4Base64 = await toBase64(doc4.files[0]);
 
-                <!-- Footer -->
-                <div class="paper-footer">
-                    <p>Shop No.09, Hari Singh Market, Opp DLF Arbour, Sec-63, Gurugram Haryana India- 122003</p>
-                    <p>Email: info@unifiedfacility.in</p>
-                </div>
+    const res = await fetch(SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
 
-            </div>
-        </div>
-    </div>
+    const json = await res.json();
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
-    <script>
-        // Initialize AOS
-        AOS.init({ once: true, duration: 800 });
+    if (json.status !== "success") throw json.message;
 
-        // Toggle Logic for Uniform
-        document.querySelectorAll('.uniform-switch').forEach(sw => {
-            sw.addEventListener('change', function() {
-                const row = this.closest('tr');
-                const dateInput = row.querySelector('.date-field');
-                
-                if(this.checked) {
-                    dateInput.disabled = false;
-                    dateInput.focus();
-                } else {
-                    dateInput.disabled = true;
-                    dateInput.value = '';
-                }
-            });
-        });
+    msg.className = "alert alert-success";
+    msg.innerHTML = `Form submitted.<br>Employee ID: <b>${json.employeeId}</b>`;
+    joiningForm.reset();
 
-        // Photo Preview Logic
-        const photoInput = document.getElementById('photoInput');
-        const photoPlaceholder = document.querySelector('.photo-placeholder');
-        
-        photoInput.addEventListener('change', function() {
-            const file = this.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    photoPlaceholder.innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">`;
-                }
-                reader.readAsDataURL(file);
-            }
-        });
+  } catch (err) {
+    msg.className = "alert alert-danger";
+    msg.innerText = err;
+  }
 
-        // Form Submission Logic
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRACCrDRpgJVLU0dMlLnba_6tiYJB5sEk8JI_QSfNLOuTkGQU0myO6O7NidxaK1CSE/exec';
+  btn.disabled = false;
+});
 
-        document.getElementById('joiningForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const msg = document.getElementById('statusMsg');
-            
-            // UI Feedback
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Submitting...';
-            
-            // 1. Clear previous messages & Style as Error initially
-            msg.className = 'alert alert-danger'; 
-            msg.innerText = "Checking information...";
+function toBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+</script>
 
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => data[key] = value);
-
-            // 2. Collect Uniform Data
-            const uniformRows = [];
-            const tableRows = document.querySelectorAll('.modern-table tbody tr');
-            tableRows.forEach(row => {
-                const isIssued = row.querySelector('.uniform-switch').checked;
-                if(isIssued) {
-                    const item = row.cells[0].innerText.trim();
-                    const date = row.querySelector('.date-field').value;
-                    uniformRows.push({ item, date });
-                }
-            });
-            data.uniformDetails = uniformRows;
-
-            // 3. Collect Family Data
-            const familyRows = [];
-            const familyTableRows = document.querySelectorAll('.paper-table:last-of-type tbody tr');
-            familyTableRows.forEach(row => {
-                const inputs = row.querySelectorAll('input');
-                if(inputs[0].value) {
-                    familyRows.push({
-                        name: inputs[0].value,
-                        dob: inputs[1].value,
-                        relation: inputs[2].value,
-                        aadhaar: inputs[3].value
-                    });
-                }
-            });
-            data.familyDetails = familyRows;
-
-            // 4. Collect Files (Base64)
-            const filePromises = [];
-            
-            if(photoInput.files[0]) {
-                filePromises.push(toBase64(photoInput.files[0]).then(res => ({name: 'photoBase64', data: res})));
-            }
-            
-            // Collect Docs 1-6
-            for(let i=1; i<=6; i++) {
-                const input = document.getElementById(`doc${i}`);
-                if(input.files[0]) {
-                    filePromises.push(toBase64(input.files[0]).then(res => ({name: `doc${i}Base64`, data: res})));
-                }
-            }
-
-            // 5. Wait for files & Send
-            Promise.all(filePromises).then(files => {
-                files.forEach(f => {
-                    data[f.name] = f.data;
-                });
-
-                data.action = 'submitForm';
-
-                fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                })
-                .then(() => {
-                    // SUCCESS
-                    btn.innerHTML = '<i class="fas fa-check me-2"></i> Submitted';
-                    btn.classList.add('btn-success');
-                    
-                    // POPUP SUCCESS MESSAGE AS REQUESTED
-                    msg.className = 'alert alert-success';
-                    msg.innerHTML = `
-                        <strong>Form Submitted!</strong><br>
-                        Your data has been sent to Unified Security & Facility Management Services Pvt. Ltd.
-                    `;
-                    
-                    document.getElementById('joiningForm').reset();
-                    photoPlaceholder.innerHTML = '<i class="fas fa-camera fa-2x"></i><p>Click to Upload</p>';
-                    document.querySelectorAll('.date-field').forEach(i => i.disabled = true);
-                })
-                .catch(err => {
-                    // ERROR
-                    console.error(err);
-                    btn.disabled = false;
-                    btn.innerHTML = 'Error - Try Again';
-                    
-                    // SHOW ERROR AT TOP
-                    msg.className = 'alert alert-danger';
-                    msg.innerText = "Error: Please ensure all required fields and documents are uploaded correctly.";
-                });
-            });
-        });
-
-        function toBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        // Particles
-        function createParticles() {
-            const container = document.getElementById('heroParticles');
-            for(let i=0; i<30; i++){
-                let p = document.createElement('div');
-                p.className = 'particle';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.top = Math.random() * 100 + '%';
-                p.style.animationDelay = Math.random() * 20 + 's';
-                container.appendChild(p);
-            }
-        }
-        document.addEventListener('DOMContentLoaded', createParticles);
-    </script>
 </body>
 </html>

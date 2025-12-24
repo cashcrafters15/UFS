@@ -4,19 +4,56 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Joining Form | Unified Security</title>
-<link rel="stylesheet" href="style.css">
-<!-- Bootstrap & Font Awesome -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+/* --- INLINE CSS --- */
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f8fafc;color:#333;padding-bottom:80px;position:relative;overflow-x:hidden;}
+.navbar{background:rgba(0,51,102,0.95);padding:10px 0;box-shadow:0 4px 15px rgba(0,0,0,0.1);}
+.navbar-brand{color:white!important;font-weight:700;display:flex;align-items:center;}
+.brand-text{margin-left:12px;text-transform:uppercase;letter-spacing:0.5px;font-size:1.1rem;}
+.main-wrapper{padding-top:100px;}
+.paper-card{background:white;max-width:1000px;margin:0 auto;box-shadow:0 10px 40px rgba(0,0,0,0.08);padding:50px;border:1px solid #eee;border-radius:10px;}
+.paper-header{text-align:center;border-bottom:3px solid #003366;padding-bottom:25px;margin-bottom:40px;}
+.paper-header h2{color:#003366;font-weight:800;text-transform:uppercase;font-size:1.6rem;margin-bottom:8px;}
+.paper-header h5{text-transform:uppercase;font-weight:600;color:#444;letter-spacing:1px;}
+.asterisk{font-size:0.9rem;color:#666;margin-top:5px;}
+.form-label-bold{font-weight:600;font-size:0.95rem;margin-bottom:6px;color:#2c3e50;display:block;}
+.paper-input{width:100%;border:1px solid #d1d5db;padding:10px 12px;border-radius:6px;background:#f9fafb;font-size:0.95rem;transition: all 0.3s ease;}
+.paper-input:focus{outline:none;border-color:#003366;background:#fff;box-shadow:0 0 0 3px rgba(0,51,102,0.1);}
+.paper-textarea{width:100%;border:1px solid #d1d5db;padding:10px 12px;border-radius:6px;background:#f9fafb;resize:vertical;}
+.photo-upload-box{width:100%;height:180px;border:2px dashed #cbd5e1;border-radius:8px;background:#f8fafc;overflow:hidden;position:relative;transition:border-color 0.3s;}
+.photo-upload-box:hover{border-color:#003366;}
+.photo-placeholder{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer;color:#94a3b8;}
+.photo-placeholder:hover{color:#003366;}
+.table-responsive{margin-top:15px;}
+.paper-table{width:100%;border-collapse:separate;border-spacing:0;font-size:0.9rem;box-shadow:0 0 0 1px #e2e8f0;border-radius:6px;overflow:hidden;}
+.paper-table th{background:#003366;color:white;padding:12px;text-align:center;font-weight:600;text-transform:uppercase;font-size:0.8rem;letter-spacing:0.5px;}
+.paper-table td{border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;padding:10px;background:white;vertical-align:middle;}
+.paper-table td:last-child{border-right:none;}
+.paper-table tr:last-child td{border-bottom:none;}
+.table-input{width:100%;border:none;background:transparent;text-align:center;}
+.table-input:disabled{background-color:#f1f5f9;color:#cbd5e1;}
+.table-input:not(:disabled):focus{outline:none;background:rgba(0,51,102,0.05);}
+.undertaking-box{border:1px solid #e2e8f0;padding:25px;margin-top:40px;background:#f8fafc;border-radius:8px;}
+.undertaking-box h5{border-bottom:1px solid #cbd5e1;padding-bottom:10px;margin-bottom:15px;font-weight:700;color:#003366;}
+.signatures{display:flex;justify-content:space-between;margin-top:50px;gap:20px;}
+.sig-box{width:45%;}
+.sig-box p{margin:0 0 8px 0;font-size:0.9rem;font-weight:600;color:#475569;}
+.underline-input{border:none;border-bottom:2px solid #334155;width:100%;padding:5px 0;font-family:'Brush Script MT', cursive;font-size:1.5rem;text-align:center;}
+.btn-submit{background:#003366;color:white;padding:14px 50px;border-radius:50px;font-weight:700;text-transform:uppercase;border:none;box-shadow:0 4px 10px rgba(0,51,102,0.2);transition:all 0.3s;}
+.btn-submit:hover{background:#004080;transform:translateY(-2px);box-shadow:0 6px 15px rgba(0,51,102,0.3);}
+.btn-success{background:#10b981 !important;box-shadow:0 4px 10px rgba(16,185,129,0.2);}
+.paper-footer{text-align:center;font-size:0.85rem;color:#64748b;margin-top:50px;border-top:1px solid #eee;padding-top:20px;}
+@media(max-width:768px){.paper-card{padding:25px 15px;}.photo-upload-box{height:150px;}.signatures{flex-direction:column;gap:30px;}.sig-box{width:100%;}.table-responsive{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}.paper-table{width:100%;min-width:600px;}}
+</style>
 </head>
 <body>
-<nav class="navbar navbar-light">
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-light">
   <div class="container">
     <a class="navbar-brand" href="#">
-      <img src="favicon.png" alt="Logo" height="40">
+      <img src="favicon.png" alt="Unified" height="40">
       <span class="brand-text">Joining Form</span>
     </a>
   </div>
@@ -31,321 +68,194 @@
         <p class="asterisk">*All details should be as per Aadhaar Card</p>
       </div>
 
-      <div class="paper-body">
-        <form id="joiningForm">
-          <div id="statusMsg" class="alert"></div>
+      <form id="joiningForm">
+        <div id="statusMsg" class="alert d-none"></div>
 
-          <!-- SECTION 1: Employee Basic Details -->
-          <div class="paper-section">
-            <div class="row g-3 align-items-start">
-              <div class="col-md-8">
-                <label class="form-label-bold">Name of Employee: *</label>
-                <input type="text" class="paper-input" name="fullName" required>
-
-                <div class="row mt-3">
-                  <div class="col-md-6">
-                    <label class="form-label-bold">UAN No:</label>
-                    <input type="text" class="paper-input" name="uan">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label-bold">Work Location: *</label>
-                    <input type="text" class="paper-input" name="workLocation" required>
-                  </div>
-                </div>
-
-                <div class="row mt-3">
-                  <div class="col-md-6">
-                    <label class="form-label-bold">Designation: *</label>
-                    <input type="text" class="paper-input" name="designation" required>
-                  </div>
-                  <div class="col-md-6 d-flex flex-column">
-                    <label class="form-label-bold">Gender:</label>
-                    <div class="d-flex gap-3">
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gender" value="Male" required>
-                        <label class="form-check-label">Male</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gender" value="Female">
-                        <label class="form-check-label">Female</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row mt-3">
-                  <div class="col-md-6">
-                    <label class="form-label-bold">Date of Birth: *</label>
-                    <input type="date" class="paper-input" name="dob" required>
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label-bold">Joining Date: *</label>
-                    <input type="date" class="paper-input" name="joiningDate" required>
-                  </div>
-                </div>
-
-                <div class="mt-3">
-                  <label class="form-label-bold">Father / Husband Name: *</label>
-                  <input type="text" class="paper-input" name="fatherName" required>
-                </div>
-              </div>
-
-              <div class="col-md-4 text-center">
-                <label class="form-label-bold">Photo</label>
-                <div class="photo-upload-box" id="photoPreviewBox">
-                  <input type="file" id="photoInput" accept="image/*" required hidden>
-                  <div class="photo-placeholder" onclick="document.getElementById('photoInput').click()">
-                    <i class="fas fa-camera fa-2x"></i>
-                    <p>Click to Upload</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <!-- PHOTO -->
+        <label class="form-label-bold">Employee Photo</label>
+        <div class="photo-upload-box">
+          <div class="photo-placeholder" onclick="document.getElementById('photoInput').click()">
+            <i class="fas fa-camera fa-2x"></i>
+            <p>Click to Upload</p>
           </div>
+          <input type="file" id="photoInput" name="photo" accept="image/*" class="d-none">
+        </div>
 
-          <!-- SECTION 2: Contact & Nominee -->
-          <div class="paper-section">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label-bold">Nominee Name:</label>
-                <input type="text" class="paper-input" name="nomineeName">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label-bold">Relation:</label>
-                <input type="text" class="paper-input" name="nomineeRelation">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label-bold">Marital Status:</label>
-                <select class="paper-input" name="maritalStatus">
-                  <option value="Single">Single</option>
-                  <option value="Married">Married</option>
-                </select>
-              </div>
-            </div>
+        <!-- BASIC DETAILS -->
+        <div class="row mt-4">
+          <div class="col-md-6"><label class="form-label-bold">Full Name</label><input type="text" name="fullName" class="paper-input" required></div>
+          <div class="col-md-6"><label class="form-label-bold">UAN Number</label><input type="text" name="uanNumber" class="paper-input" required></div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6"><label class="form-label-bold">Work Location</label><input type="text" name="workLocation" class="paper-input" required></div>
+          <div class="col-md-6"><label class="form-label-bold">Designation</label><input type="text" name="designation" class="paper-input" required></div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6"><label class="form-label-bold">Gender</label><input type="text" name="gender" class="paper-input" required></div>
+          <div class="col-md-6"><label class="form-label-bold">Date of Birth</label><input type="date" name="dob" class="paper-input" required></div>
+        </div>
 
-            <div class="row mt-3">
-              <div class="col-md-4">
-                <label class="form-label-bold">Mobile No: *</label>
-                <input type="tel" class="paper-input" name="mobile" pattern="[0-9]{10}" required>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label-bold">Aadhaar No: *</label>
-                <input type="text" class="paper-input" name="aadhaar" required>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label-bold">PAN No: *</label>
-                <input type="text" class="paper-input" name="pan" required>
-              </div>
-            </div>
+        <!-- NOMINEE -->
+        <div class="row mt-3">
+          <div class="col-md-6"><label class="form-label-bold">Father/Husband Name</label><input type="text" name="fatherName" class="paper-input" required></div>
+          <div class="col-md-6"><label class="form-label-bold">Nominee Name</label><input type="text" name="nomineeName" class="paper-input"></div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6"><label class="form-label-bold">Nominee Relation</label><input type="text" name="nomineeRelation" class="paper-input"></div>
+          <div class="col-md-6"><label class="form-label-bold">Joining Date</label><input type="date" name="joiningDate" class="paper-input" required></div>
+        </div>
+
+        <!-- CONTACT & BANK -->
+        <div class="row mt-3">
+          <div class="col-md-6"><label class="form-label-bold">Marital Status</label><input type="text" name="maritalStatus" class="paper-input"></div>
+          <div class="col-md-6"><label class="form-label-bold">Mobile Number</label><input type="tel" name="mobileNumber" class="paper-input" required></div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6"><label class="form-label-bold">Aadhaar Number</label><input type="text" name="aadhaarNumber" class="paper-input"></div>
+          <div class="col-md-6"><label class="form-label-bold">PAN Number</label><input type="text" name="panNumber" class="paper-input"></div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6"><label class="form-label-bold">Bank Account Number</label><input type="text" name="bankAccount" class="paper-input"></div>
+          <div class="col-md-6"><label class="form-label-bold">IFSC Code</label><input type="text" name="ifscCode" class="paper-input"></div>
+        </div>
+
+        <!-- DOCUMENTS -->
+        <div class="row mt-4">
+          <div class="col-md-4">
+            <label class="form-label-bold">Upload Aadhaar</label>
+            <input type="file" id="aadhaarFile" class="form-control" accept=".pdf,image/*">
           </div>
-
-          <!-- SECTION 3: Bank -->
-          <div class="paper-section">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label-bold">Bank Account No: *</label>
-                <input type="text" class="paper-input" name="bankAccount" required>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label-bold">IFSC: *</label>
-                <input type="text" class="paper-input" name="ifsc" required>
-              </div>
-            </div>
+          <div class="col-md-4">
+            <label class="form-label-bold">Upload PAN</label>
+            <input type="file" id="panFile" class="form-control" accept=".pdf,image/*">
           </div>
-
-          <!-- SECTION 4: Address -->
-          <div class="paper-section">
-            <label class="form-label-bold">Present Address: *</label>
-            <textarea class="paper-textarea" name="presentAddress" rows="2" required></textarea>
-
-            <label class="form-label-bold mt-3">Permanent Address: *</label>
-            <textarea class="paper-textarea" name="permanentAddress" rows="2" required></textarea>
+          <div class="col-md-4">
+            <label class="form-label-bold">Upload Bank Document</label>
+            <input type="file" id="bankFile" class="form-control" accept=".pdf,image/*">
           </div>
+        </div>
 
-          <!-- SECTION 5: Uniform -->
-          <div class="paper-section">
-            <label class="form-label-bold">Uniform Issue</label>
-            <table class="paper-table modern-table">
-              <thead>
-                <tr>
-                  <th>Item Name</th>
-                  <th>Issued?</th>
-                  <th>Issue Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>Pant</td><td><input type="checkbox" class="uniform-switch"></td><td><input type="date" class="table-input date-field" disabled></td></tr>
-                <tr><td>Shirt</td><td><input type="checkbox" class="uniform-switch"></td><td><input type="date" class="table-input date-field" disabled></td></tr>
-                <tr><td>Shoes</td><td><input type="checkbox" class="uniform-switch"></td><td><input type="date" class="table-input date-field" disabled></td></tr>
-                <tr><td>Cap</td><td><input type="checkbox" class="uniform-switch"></td><td><input type="date" class="table-input date-field" disabled></td></tr>
-              </tbody>
-            </table>
-          </div>
+        <!-- ADDRESS -->
+        <div class="row mt-3">
+          <div class="col-md-6"><label class="form-label-bold">Present Address</label><textarea name="presentAddress" class="paper-textarea"></textarea></div>
+          <div class="col-md-6"><label class="form-label-bold">Permanent Address</label><textarea name="permanentAddress" class="paper-textarea"></textarea></div>
+        </div>
 
-          <!-- SECTION 6: ESIC -->
-          <div class="paper-section">
-            <label class="form-label-bold">ESIC Number:</label>
-            <input type="text" class="paper-input" name="esic">
-          </div>
+        <!-- ESIC TABLE -->
+        <div class="table-responsive mt-4">
+          <label class="form-label-bold">ESIC Details</label>
+          <table class="paper-table" id="esicTable">
+            <thead>
+              <tr>
+                <th>ESIC Number</th>
+                <th>Name</th>
+                <th>Relation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" class="table-input" name="esicNumber"></td>
+                <td><input type="text" class="table-input" name="esicName"></td>
+                <td><input type="text" class="table-input" name="esicRelation"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-          <!-- SECTION 7: Family Table -->
-          <div class="paper-section">
-            <label class="form-label-bold">Family Details:</label>
-            <table class="paper-table" id="familyTable">
-              <thead>
-                <tr><th>Name</th><th>Date of Birth</th><th>Relation</th><th>Aadhaar No</th></tr>
-              </thead>
-              <tbody>
-                <tr><td><input type="text" class="table-input"></td><td><input type="date" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td></tr>
-                <tr><td><input type="text" class="table-input"></td><td><input type="date" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td></tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="text-center mt-4">
+          <button type="submit" id="submitBtn" class="btn btn-submit"><i class="fas fa-check-double me-2"></i> Submit Form</button>
+        </div>
 
-          <!-- SECTION 8: Documents -->
-          <div class="paper-section upload-section">
-            <label class="form-label-bold">Upload Required Documents *</label>
-            <input type="file" class="paper-input doc-upload" id="doc1" accept="image/*" required>
-            <input type="file" class="paper-input doc-upload" id="doc2" accept="image/*" required>
-          </div>
+      </form>
 
-          <div class="text-center mt-4">
-            <button type="submit" id="submitBtn" class="btn-submit"><i class="fas fa-check"></i> Submit Form</button>
-          </div>
-        </form>
+      <div class="paper-footer">
+        <p>Shop No.09, Hari Singh Market, Opp DLF Arbour, Sec-63, Gurugram Haryana India- 122003</p>
+        <p>Email: info@unifiedfacility.in</p>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyBaFQIr9PtvIsIM3f10EAFOqeM9JCuvjyMGlcdlKFBVLI6lmCcMlhjpfBXbF7KAF-e/exec';
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbyBaFQIr9PtvIsIM3f10EAFOqeM9JCuvjyMGlcdlKFBVLI6lmCcMlhjpfBXbF7KAF-e/exec';
+let employeeCounter = 261;
 
-document.querySelectorAll('.uniform-switch').forEach(sw=>{
-  sw.addEventListener('change', function(){
-    const dateInput=this.closest('tr').querySelector('.date-field');
-    dateInput.disabled = !this.checked;
-    if(!this.checked) dateInput.value='';
+// Convert file input to Base64
+async function fileToBase64(inputId) {
+  const file = document.getElementById(inputId).files[0];
+  if(!file) return '';
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.readAsDataURL(file);
   });
-});
+}
 
 // Photo preview
-const photoInput=document.getElementById('photoInput');
-const photoPlaceholder=document.querySelector('.photo-placeholder');
-photoInput.addEventListener('change',()=>{
-  const file=photoInput.files[0];
+document.getElementById('photoInput').addEventListener('change', async function(){
+  const file = this.files[0];
   if(file){
-    const reader=new FileReader();
-    reader.onload=e=>{
-      photoPlaceholder.innerHTML=`<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;">`;
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.querySelector('.photo-placeholder').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">`;
     };
     reader.readAsDataURL(file);
   }
 });
 
-// Convert file to base64
-function toBase64(file){ return new Promise((res,rej)=>{
-  const reader=new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload=()=>res(reader.result);
-  reader.onerror=err=>rej(err);
-});}
-
-// Form submission
-document.getElementById('joiningForm').addEventListener('submit',async function(e){
+// Submit Form
+document.getElementById('joiningForm').addEventListener('submit', async function(e){
   e.preventDefault();
-  const btn=document.getElementById('submitBtn');
-  btn.disabled=true; btn.innerHTML='Submitting...';
+  const btn = document.getElementById('submitBtn');
+  const msg = document.getElementById('statusMsg');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Submitting...';
+  msg.classList.add('d-none');
 
-  const formData=new FormData(this);
-  const data={};
-  formData.forEach((v,k)=>data[k]=v);
+  const formData = new FormData(this);
+  const data = {};
+  formData.forEach((value,key) => data[key] = value);
 
-  // Uniform table
-  const uniformRows=[];
-  document.querySelectorAll('.modern-table tbody tr').forEach(row=>{
-    const issued=row.querySelector('.uniform-switch').checked;
-    if(issued){
-      uniformRows.push({item:row.cells[0].innerText,date:row.querySelector('.date-field').value});
-    }
-  });
-  data.uniformDetails=uniformRows;
+  data.empId = `UFD-HR-S-${employeeCounter.toString().padStart(5,'0')}`;
+  employeeCounter++;
 
-  // Family table
-  const familyRows=[];
-  document.querySelectorAll('#familyTable tbody tr').forEach(row=>{
-    const inputs=row.querySelectorAll('input');
-    if(inputs[0].value){
-      familyRows.push({name:inputs[0].value,dob:inputs[1].value,relation:inputs[2].value,aadhaar:inputs[3].value});
-    }
-  });
-  data.familyDetails=familyRows;
+  // Convert files to Base64
+  data.photo = await fileToBase64('photoInput');
+  data.aadhaarFile = await fileToBase64('aadhaarFile');
+  data.panFile = await fileToBase64('panFile');
+  data.bankFile = await fileToBase64('bankFile');
 
-  // Photo & docs
-  const files=[];
-  if(photoInput.files[0]) files.push(toBase64(photoInput.files[0]).then(r=>({name:'photoBase64',data:r})));
-  for(let i=1;i<=2;i++){
-    const input=document.getElementById(`doc${i}`);
-    if(input.files[0]) files.push(toBase64(input.files[0]).then(r=>({name:`doc${i}Base64`,data:r})));
-  }
-  const base64Files=await Promise.all(files);
-  base64Files.forEach(f=>data[f.name]=f.data);
+  // Gather ESIC table data
+  const esicRows = document.querySelectorAll('#esicTable tbody tr');
+  data.esicDetails = Array.from(esicRows).map(r => ({
+      number: r.querySelector('[name="esicNumber"]').value,
+      name: r.querySelector('[name="esicName"]').value,
+      relation: r.querySelector('[name="esicRelation"]').value
+  }));
 
-  // Send to Apps Script
-  fetch(SCRIPT_URL,{
-    method:'POST',
-    mode:'no-cors',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(data)
-  }).then(()=>{
-    // Generate PDF
-    generatePDF(data);
-    btn.innerHTML='Submitted ✅';
+  try{
+    await fetch(SCRIPT_URL, {
+      method:'POST',
+      body: JSON.stringify(data),
+      headers:{'Content-Type':'application/json'}
+    });
+    msg.className='alert alert-success';
+    msg.innerHTML = `<strong>Form Submitted!</strong><br>Employee ID: ${data.empId}`;
+    msg.classList.remove('d-none');
+    this.reset();
+    document.querySelector('.photo-placeholder').innerHTML = `<i class="fas fa-camera fa-2x"></i><p>Click to Upload</p>`;
+    btn.innerHTML='<i class="fas fa-check me-2"></i> Submitted';
     btn.classList.add('btn-success');
-  }).catch(err=>{
+    btn.disabled=false;
+  }catch(err){
     console.error(err);
-    btn.disabled=false; btn.innerHTML='Submit Form';
-  });
+    msg.className='alert alert-danger';
+    msg.innerText='Error submitting form! Please try again.';
+    msg.classList.remove('d-none');
+    btn.innerHTML='Submit Form';
+    btn.disabled=false;
+  }
 });
-
-// PDF Generation
-async function generatePDF(data){
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF('p','pt','a4');
-  // Header
-  const logo = new Image();
-  logo.src='favicon.png';
-  doc.addImage(logo,'PNG',40,20,50,50);
-  doc.setFontSize(14); doc.text('Joining / General Information Form',100,50);
-
-  let y=100;
-  doc.setFontSize(10);
-  doc.text(`Employee ID: UFD-HR-S-00261`,40,y); y+=15;
-  doc.text(`Name: ${data.fullName}`,40,y); y+=15;
-  doc.text(`UAN: ${data.uan || '-'}`,40,y); y+=15;
-  doc.text(`Work Location: ${data.workLocation}`,40,y); y+=15;
-  doc.text(`Designation: ${data.designation}`,40,y); y+=15;
-  doc.text(`Gender: ${data.gender}`,40,y); y+=15;
-  doc.text(`DOB: ${data.dob}`,40,y); y+=15;
-  doc.text(`Father/Husband: ${data.fatherName}`,40,y); y+=25;
-
-  // Uniform Table
-  doc.text('Uniform Details:',40,y); y+=15;
-  data.uniformDetails.forEach(u=>{
-    doc.text(`${u.item} - ${u.date}`,50,y); y+=12;
-  });
-
-  // Family Table
-  doc.text('Family Details:',40,y); y+=15;
-  data.familyDetails.forEach(f=>{
-    doc.text(`${f.name} | ${f.dob} | ${f.relation} | ${f.aadhaar}`,50,y); y+=12;
-  });
-
-  // Footer
-  doc.text('UNIFIED SECURITY AND FACILITIES MANAGEMENT SERVICES PVT. LTD.',40,doc.internal.pageSize.height-40);
-
-  doc.save(`${data.fullName}_joining_form.pdf`);
-}
 </script>
 
 </body>

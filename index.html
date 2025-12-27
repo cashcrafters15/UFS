@@ -15,9 +15,10 @@
 body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px; }
 .navbar { background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
 .navbar .brand-text { font-weight:600; font-size:1.2rem; margin-left:10px; }
+.navbar-brand img { height: 40px; width: auto; object-fit: contain; } /* Logo Styling */
 .main-wrapper { max-width:900px; margin:auto; }
 .paper-card { background:#fff; border-radius:12px; padding:30px; box-shadow:0 4px 20px rgba(0,0,0,0.08); margin-bottom:40px; }
-.paper-header h2 { font-weight:700; color:#003366; }
+.paper-header h2 { font-weight:700; color:#003366; font-size: 1.5rem; }
 .paper-header h5 { font-weight:500; color:#555; margin-bottom:5px; }
 .asterisk { font-size:0.9rem; color:#ff0000; }
 .paper-section { margin-top:25px; }
@@ -40,10 +41,10 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px
 .undertaking-box { background:#f1f5f9; padding:20px; border-radius:8px; margin-top:25px; }
 .signatures { display:flex; gap:20px; margin-top:15px; }
 .sig-box { flex:1; }
-.underline-input { border:none; border-bottom:2px solid #333; width:100%; padding:5px; background:transparent; }
+.underline-input { border:none; border-bottom:2px solid #333; width:100%; padding:5px; background:transparent; font-weight:bold; color:#000; } /* Bold signature text */
 .sig-locked { text-align:center; }
-.sig-locked .locked-sig span { font-size:0.9rem; color:#555; }
-.sig-locked .locked-sig div { margin-top:5px; }
+.sig-locked .locked-sig span { font-size:0.9rem; color:#555; display:block; }
+.sig-locked .locked-sig img { height: 50px; width: auto; margin-top: 5px; object-fit: contain; } /* Image styling for signature */
 .hero-particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none; }
 .particle { position:absolute; width:8px; height:8px; background:rgba(0,123,255,0.4); border-radius:50%; animation: float 15s linear infinite; }
 @keyframes float { 0% { transform:translateY(0);} 50% { transform:translateY(-200px);} 100% { transform:translateY(0);} }
@@ -56,7 +57,8 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px
 <nav class="navbar navbar-expand-lg fixed-top navbar-light">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img src="https://unifiedfacility.in/wp-content/uploads/2021/07/cropped-logo-unified-1.png" alt="Unified" height="40">
+            <!-- CHANGED: Logo Source to GitHub Favicon -->
+            <img src="https://github.com/fluidicon.png" alt="Unified" height="40">
             <span class="brand-text">Joining Form</span>
         </a>
     </div>
@@ -81,7 +83,8 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px
 <div class="row g-3 align-items-start">
 <div class="col-md-8">
 <label class="form-label-bold">Name of Employee: *</label>
-<input type="text" class="paper-input" name="fullName" required>
+<!-- ADDED ID 'fullNameInput' to read this value for the signature -->
+<input type="text" class="paper-input" name="fullName" id="fullNameInput" required>
 
 <div class="row mt-3">
 <div class="col-md-6">
@@ -203,7 +206,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px
 <textarea class="paper-textarea" name="permanentAddress" rows="2" required></textarea>
 </div>
 
-<!-- SECTION 5: UNIFORM ISSUE (YES/NO) -->
+<!-- SECTION 5: UNIFORM ISSUE -->
 <div class="paper-section">
 <label class="form-label-bold">Uniform Issue Status</label>
 <div class="table-responsive">
@@ -285,13 +288,15 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px
 <div class="signatures">
 <div class="sig-box">
 <p>Signature/Thumb of Employee</p>
-<input type="text" class="underline-input" placeholder="Sign Here">
+<!-- ADDED ID 'employeeSignature' -->
+<input type="text" class="underline-input" id="employeeSignature" placeholder="Will Auto-fill" readonly>
 </div>
 <div class="sig-box sig-locked">
 <p>Authorised Signatory</p>
 <div class="locked-sig">
 <span>For Unified Security</span>
-<div style="font-family:'Brush Script MT', cursive; font-size: 1.5rem; color: #003366;">Authorized Sign</div>
+<!-- CHANGED: Using GitHub Favicon Image -->
+<img src="https://github.com/fluidicon.png" alt="Authorised Signatory">
 </div>
 </div>
 </div>
@@ -351,12 +356,30 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px
 <script>
 AOS.init({once:true,duration:800});
 
+// LOGIC: Auto-fill Employee Signature with Employee Name
+const fullNameInput = document.getElementById('fullNameInput');
+const employeeSignature = document.getElementById('employeeSignature');
+
+if(fullNameInput && employeeSignature){
+    fullNameInput.addEventListener('input', function() {
+        employeeSignature.value = this.value;
+    });
+}
+
 // Uniform Table Logic
 document.querySelectorAll('.uniform-switch').forEach(sw=>{
     sw.addEventListener('change',function(){
         const row=this.closest('tr');
         const date=row.querySelector('.date-field');
-        if(this.checked){ date.disabled=false; date.focus(); } else { date.disabled=true; date.value=''; }
+        if(this.checked){ 
+            date.disabled=false; 
+            date.focus(); 
+            // Default to today
+            date.valueAsDate = new Date();
+        } else { 
+            date.disabled=true; 
+            date.value=''; 
+        }
     });
 });
 
@@ -374,60 +397,120 @@ photoInput.addEventListener('change',function(){
     }
 });
 
+// Helper to convert file to Base64
+function toBase64(file){
+    return new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload=()=>resolve(reader.result);
+        reader.onerror=err=>reject(err);
+    });
+}
+
 // Form Submit
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbyBaFQIr9PtvIsIM3f10EAFOqeM9JCuvjyMGlcdlKFBVLI6lmCcMlhjpfBXbF7KAF-e/exec';
+
 document.getElementById('joiningForm').addEventListener('submit',async function(e){
     e.preventDefault();
     const btn=document.getElementById('submitBtn');
     const msg=document.getElementById('statusMsg');
-    btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin me-2"></i> Submitting...';
-    msg.className='alert alert-danger'; msg.innerText="Checking information...";
+    
+    btn.disabled=true; 
+    btn.innerHTML='<i class="fas fa-spinner fa-spin me-2"></i> Submitting...';
+    msg.className='alert alert-info hidden'; 
+    msg.innerText="Please wait while we upload your files...";
+    msg.classList.remove('hidden');
     
     const formData=new FormData(this);
     const data={};
     formData.forEach((v,k)=>data[k]=v);
     
-    // Uniform Data
+    // 1. Process Uniform Data
     const uniformRows=[];
     document.querySelectorAll('.modern-table tbody tr').forEach(row=>{
         const isIssued=row.querySelector('.uniform-switch').checked;
-        if(isIssued){ uniformRows.push({item:row.cells[0].innerText,date:row.querySelector('.date-field').value}); }
+        if(isIssued){ 
+            uniformRows.push({
+                item:row.cells[0].innerText.trim(),
+                date:row.querySelector('.date-field').value
+            }); 
+        }
     });
     data.uniformDetails=uniformRows;
     
-    // Files
+    // 2. Process Files (Base64)
     const filePromises=[];
-    if(photoInput.files[0]) filePromises.push(toBase64(photoInput.files[0]).then(res=>({name:'photoBase64',data:res})));
+    
+    // Fix: We map 'photoInput' ID to 'photoInput' key in data to match the script
+    if(photoInput.files[0]) {
+        filePromises.push(
+            toBase64(photoInput.files[0]).then(res => ({name:'photoInput', data:res}))
+        );
+    }
+    
     for(let i=1;i<=6;i++){
         const input=document.getElementById('doc'+i);
-        if(input.files[0]) filePromises.push(toBase64(input.files[0]).then(res=>({name:'doc'+i+'Base64',data:res})));
+        if(input.files[0]) {
+            filePromises.push(
+                toBase64(input.files[0]).then(res => ({name:'doc'+i, data:res}))
+            );
+        }
     }
 
     try{
+        // Wait for all files to be converted
         const files=await Promise.all(filePromises);
+        
+        // Add file data to main data object
         files.forEach(f=>data[f.name]=f.data);
+        
         data.action='submitForm';
-        await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+
+        // Send to Google Apps Script
+        await fetch(SCRIPT_URL,{
+            method:'POST',
+            mode:'no-cors', // Important for GAS
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(data)
+        });
+        
         btn.innerHTML='<i class="fas fa-check me-2"></i> Submitted';
+        btn.classList.remove('btn-submit');
         btn.classList.add('btn-success');
         msg.className='alert alert-success';
-        msg.innerHTML=`<strong>Form Submitted!</strong><br>Your data has been sent successfully.`;
+        msg.innerHTML=`<strong>Success!</strong><br>Your form has been submitted.`;
+        
+        // Reset Form
         this.reset();
         photoPlaceholder.innerHTML='<i class="fas fa-camera fa-2x"></i><p>Click to Upload</p>';
-        document.querySelectorAll('.date-field').forEach(i=>i.disabled=true);
+        document.querySelectorAll('.date-field').forEach(i=>{i.disabled=true; i.value='';});
+        employeeSignature.value = ''; // Reset signature field
+        
     }catch(err){
         console.error(err);
         btn.disabled=false;
         btn.innerHTML='Error - Try Again';
+        btn.classList.remove('btn-submit');
+        btn.classList.add('btn-danger');
         msg.className='alert alert-danger';
-        msg.innerText="Error: Please ensure all required fields and documents are uploaded correctly.";
+        msg.innerText="Error submitting form. Please check your internet connection or contact support.";
     }
 });
 
-function toBase64(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.readAsDataURL(file);reader.onload=()=>resolve(reader.result);reader.onerror=err=>reject(err);});}
-
 // Particles
-function createParticles(){const container=document.getElementById('heroParticles');for(let i=0;i<30;i++){let p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.animationDelay=Math.random()*20+'s';container.appendChild(p);}}
+function createParticles(){
+    const container=document.getElementById('heroParticles');
+    if(!container) return;
+    container.innerHTML = ''; // Clear previous
+    for(let i=0;i<30;i++){
+        let p=document.createElement('div');
+        p.className='particle';
+        p.style.left=Math.random()*100+'%';
+        p.style.top=Math.random()*100+'%';
+        p.style.animationDelay=Math.random()*20+'s';
+        container.appendChild(p);
+    }
+}
 document.addEventListener('DOMContentLoaded',createParticles);
 </script>
 </body>

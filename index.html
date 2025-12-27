@@ -41,10 +41,10 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px
 .undertaking-box { background:#f1f5f9; padding:20px; border-radius:8px; margin-top:25px; }
 .signatures { display:flex; gap:20px; margin-top:15px; }
 .sig-box { flex:1; }
-.underline-input { border:none; border-bottom:2px solid #333; width:100%; padding:5px; background:transparent; font-weight:bold; color:#000; } /* Bold signature text */
+.underline-input { border:none; border-bottom:2px solid #333; width:100%; padding:5px; background:transparent; font-weight:bold; color:#000; }
 .sig-locked { text-align:center; }
 .sig-locked .locked-sig span { font-size:0.9rem; color:#555; display:block; }
-.sig-locked .locked-sig img { height: 50px; width: auto; margin-top: 5px; object-fit: contain; } /* Image styling for signature */
+.sig-locked .locked-sig img { height: 50px; width: auto; margin-top: 5px; object-fit: contain; }
 .hero-particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none; }
 .particle { position:absolute; width:8px; height:8px; background:rgba(0,123,255,0.4); border-radius:50%; animation: float 15s linear infinite; }
 @keyframes float { 0% { transform:translateY(0);} 50% { transform:translateY(-200px);} 100% { transform:translateY(0);} }
@@ -57,8 +57,8 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px
 <nav class="navbar navbar-expand-lg fixed-top navbar-light">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <!-- CHANGED: Logo Source to GitHub Favicon -->
-            <img src="https://github.com/fluidicon.png" alt="Unified" height="40">
+            <!-- UPDATED: Logo Source using the variable defined in script below -->
+            <img id="navLogo" src="" alt="Unified" height="40">
             <span class="brand-text">Joining Form</span>
         </a>
     </div>
@@ -83,7 +83,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px
 <div class="row g-3 align-items-start">
 <div class="col-md-8">
 <label class="form-label-bold">Name of Employee: *</label>
-<!-- ADDED ID 'fullNameInput' to read this value for the signature -->
 <input type="text" class="paper-input" name="fullName" id="fullNameInput" required>
 
 <div class="row mt-3">
@@ -288,15 +287,14 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px
 <div class="signatures">
 <div class="sig-box">
 <p>Signature/Thumb of Employee</p>
-<!-- ADDED ID 'employeeSignature' -->
 <input type="text" class="underline-input" id="employeeSignature" placeholder="Will Auto-fill" readonly>
 </div>
 <div class="sig-box sig-locked">
 <p>Authorised Signatory</p>
 <div class="locked-sig">
 <span>For Unified Security</span>
-<!-- CHANGED: Using GitHub Favicon Image -->
-<img src="https://github.com/fluidicon.png" alt="Authorised Signatory">
+<!-- UPDATED: Logo Source using the variable defined in script below -->
+<img id="authSig" src="" alt="Authorised Signatory">
 </div>
 </div>
 </div>
@@ -355,6 +353,23 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f7fa; padding-top:80px
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
 AOS.init({once:true,duration:800});
+
+// ==========================================
+// CONFIGURATION: UPDATE THESE GITHUB DETAILS
+// ==========================================
+const githubUsername = "YOUR_GITHUB_USERNAME"; 
+const githubRepo = "YOUR_REPO_NAME";
+// Example: If your link is https://github.com/johndoe/my-repo/blob/main/favicon.png
+// Then githubUsername = "johndoe"
+// And githubRepo = "my-repo"
+
+const logoUrl = `https://raw.githubusercontent.com/${githubUsername}/${githubRepo}/main/favicon.png`;
+
+// Set Logo Sources
+document.getElementById('navLogo').src = logoUrl;
+document.getElementById('authSig').src = logoUrl;
+
+// ==========================================
 
 // LOGIC: Auto-fill Employee Signature with Employee Name
 const fullNameInput = document.getElementById('fullNameInput');
@@ -441,13 +456,14 @@ document.getElementById('joiningForm').addEventListener('submit',async function(
     // 2. Process Files (Base64)
     const filePromises=[];
     
-    // Fix: We map 'photoInput' ID to 'photoInput' key in data to match the script
+    // Photo
     if(photoInput.files[0]) {
         filePromises.push(
             toBase64(photoInput.files[0]).then(res => ({name:'photoInput', data:res}))
         );
     }
     
+    // Docs
     for(let i=1;i<=6;i++){
         const input=document.getElementById('doc'+i);
         if(input.files[0]) {
@@ -467,11 +483,14 @@ document.getElementById('joiningForm').addEventListener('submit',async function(
         data.action='submitForm';
 
         // Send to Google Apps Script
-        await fetch(SCRIPT_URL,{
-            method:'POST',
-            mode:'no-cors', // Important for GAS
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(data)
+        // FIX: Using text/plain mode is required for GAS Web Apps
+        const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', 
+            headers: {
+                'Content-Type': 'text/plain'
+            },
+            body: JSON.stringify(data)
         });
         
         btn.innerHTML='<i class="fas fa-check me-2"></i> Submitted';
@@ -501,7 +520,7 @@ document.getElementById('joiningForm').addEventListener('submit',async function(
 function createParticles(){
     const container=document.getElementById('heroParticles');
     if(!container) return;
-    container.innerHTML = ''; // Clear previous
+    container.innerHTML = ''; 
     for(let i=0;i<30;i++){
         let p=document.createElement('div');
         p.className='particle';
